@@ -24,7 +24,7 @@ void infrared_scene_universal_on_enter(void* context) {
         context);
     submenu_add_item(
         submenu,
-        "TVs",
+        "TVs2",
         SubmenuIndexUniversalTV2,
         infrared_scene_universal_submenu_callback,
         context);
