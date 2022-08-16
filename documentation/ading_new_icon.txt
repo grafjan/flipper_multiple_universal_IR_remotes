@@ -1,0 +1,11 @@
+flipperzero-firmware/build/f7-firmware-D/assets/compiled/assets_icons.h
+
+ADD:
+extern const Icon I_Play_27x25;
+
+ADD:
+const uint8_t _I_passport_okay1_46x49_0[] = {0x01,0x00,....,};			// what the fuck is this?
+const uint8_t* const _I_passport_okay1_46x49[] = {_I_passport_okay1_46x49_0};
+
+ADD:
+const Icon I_passport_okay1_46x49 = {.width=46,.height=49,.frame_count=1,.frame_rate=0,.frames=_I_passport_okay1_46x49};

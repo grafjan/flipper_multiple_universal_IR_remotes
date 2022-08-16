@@ -1,0 +1,12 @@
+flipperzero-firmware/applications/infrared/scenes/infrared_scene_config.h
+-> add the new scene
+
+
+BUILD SUBMENU -> add submenu item to list
+
+submenu_add_item(
+        submenu,
+        "TVs",																			//label
+        SubmenuIndexUniversalTV,										//index
+        infrared_scene_universal_submenu_callback,
+        context);
