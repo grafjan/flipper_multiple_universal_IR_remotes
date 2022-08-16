@@ -10,5 +10,8 @@ void infrared_remote_button_free(InfraredRemoteButton* button);
 void infrared_remote_button_set_name(InfraredRemoteButton* button, const char* name);
 const char* infrared_remote_button_get_name(InfraredRemoteButton* button);
 
+// void infrared_remote_button_set_page(InfraredRemoteButton* button, uint32_t page);
+// uint32_t infrared_remote_button_get_page(InfraredRemoteButton* button);
+
 void infrared_remote_button_set_signal(InfraredRemoteButton* button, InfraredSignal* signal);
 InfraredSignal* infrared_remote_button_get_signal(InfraredRemoteButton* button);

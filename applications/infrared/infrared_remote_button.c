@@ -5,18 +5,21 @@
 
 struct InfraredRemoteButton {
     string_t name;
+    //uint32_t page;
     InfraredSignal* signal;
 };
 
 InfraredRemoteButton* infrared_remote_button_alloc() {
     InfraredRemoteButton* button = malloc(sizeof(InfraredRemoteButton));
     string_init(button->name);
+    //TODO: initialize page-variable?
     button->signal = infrared_signal_alloc();
     return button;
 }
 
 void infrared_remote_button_free(InfraredRemoteButton* button) {
     string_clear(button->name);
+    //TODO: free page-variable?
     infrared_signal_free(button->signal);
     free(button);
 }
@@ -28,6 +31,14 @@ void infrared_remote_button_set_name(InfraredRemoteButton* button, const char* n
 const char* infrared_remote_button_get_name(InfraredRemoteButton* button) {
     return string_get_cstr(button->name);
 }
+
+// void infrared_remote_button_set_page(InfraredRemoteButton* button, uint32_t page) {
+//     button->page = page;
+// }
+
+// uint32_t infrared_remote_button_get_page(InfraredRemoteButton* button) {
+//     return button->page;
+// }
 
 void infrared_remote_button_set_signal(InfraredRemoteButton* button, InfraredSignal* signal) {
     infrared_signal_set_signal(button->signal, signal);
