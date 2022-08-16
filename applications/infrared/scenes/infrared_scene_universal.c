@@ -2,6 +2,7 @@
 
 typedef enum {
     SubmenuIndexUniversalTV,
+    SubmenuIndexUniversalTV2,
     SubmenuIndexUniversalAudio,
     SubmenuIndexUniversalAirConditioner,
 } SubmenuIndex;
@@ -21,7 +22,13 @@ void infrared_scene_universal_on_enter(void* context) {
         SubmenuIndexUniversalTV,
         infrared_scene_universal_submenu_callback,
         context);
-    submenu_set_selected_item(submenu, 0);
+    submenu_add_item(
+        submenu,
+        "TVs",
+        SubmenuIndexUniversalTV2,
+        infrared_scene_universal_submenu_callback,
+        context);
+    submenu_set_selected_item(submenu, 1);
 
     view_dispatcher_switch_to_view(infrared->view_dispatcher, InfraredViewSubmenu);
 }
@@ -34,6 +41,9 @@ bool infrared_scene_universal_on_event(void* context, SceneManagerEvent event) {
     if(event.type == SceneManagerEventTypeCustom) {
         if(event.event == SubmenuIndexUniversalTV) {
             scene_manager_next_scene(scene_manager, InfraredSceneUniversalTV);
+            consumed = true;
+        } else if(event.event == SubmenuIndexUniversalTV2) {
+            scene_manager_next_scene(scene_manager, InfraredSceneUniversalTV2);
             consumed = true;
         } else if(event.event == SubmenuIndexUniversalAudio) {
             //TODO Implement Audio universal remote
