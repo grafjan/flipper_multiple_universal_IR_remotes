@@ -128,10 +128,11 @@ bool infrared_brute_force_send_next(InfraredBruteForce* brute_force) {
 
     string_t signal_name;
     string_init(signal_name);
+    uint32_t signal_page;//TODO: page of the signal irrelevant here -> can we avoid it here somehow?
     InfraredSignal* signal = infrared_signal_alloc();
 
     do {
-        success = infrared_signal_read(signal, brute_force->ff, signal_name);
+        success = infrared_signal_read(signal, brute_force->ff, signal_name, &signal_page);
     } while(success && !string_equal_p(brute_force->current_record_name, signal_name));
 
     if(success) {
