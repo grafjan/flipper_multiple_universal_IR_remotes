@@ -226,7 +226,7 @@ bool infrared_signal_save(InfraredSignal* signal, FlipperFormat* ff, const char*
     }
 }
 
-bool infrared_signal_read(InfraredSignal* signal, FlipperFormat* ff, string_t name) {
+bool infrared_signal_read(InfraredSignal* signal, FlipperFormat* ff, string_t name, uint32_t* page) {
     string_t buf;
     string_init(buf);
     bool success = false;
@@ -234,6 +234,7 @@ bool infrared_signal_read(InfraredSignal* signal, FlipperFormat* ff, string_t na
     do {
         if(!flipper_format_read_string(ff, "name", buf)) break;
         string_set(name, buf);
+        flipper_format_read_uint32(ff, "page", page, 1); //TODO: no break as we do not want to enforce the presence of a page-entry
         if(!flipper_format_read_string(ff, "type", buf)) break;
         if(!string_cmp_str(buf, "raw")) {
             success = infrared_signal_read_raw(signal, ff);

@@ -162,9 +162,11 @@ bool infrared_remote_load(InfraredRemote* remote, string_t path) {
 
         for(bool can_read = true; can_read;) {
             InfraredRemoteButton* button = infrared_remote_button_alloc();
-            can_read = infrared_signal_read(infrared_remote_button_get_signal(button), ff, buf);
+            uint32_t page = 0;//TODO: decide on best practice: what happens to buttons without "page" entry in the .ir file?
+            can_read = infrared_signal_read(infrared_remote_button_get_signal(button), ff, buf, &page);
             if(can_read) {
                 infrared_remote_button_set_name(button, string_get_cstr(buf));
+                //infrared_remote_button_set_page(button, page);
                 InfraredButtonArray_push_back(remote->buttons, button);
             } else {
                 infrared_remote_button_free(button);
