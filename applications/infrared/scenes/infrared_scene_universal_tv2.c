@@ -91,7 +91,7 @@ void infrared_scene_universal_tv2_on_enter(void* context) {
         context);
     infrared_brute_force_add_record(brute_force, i++, "PAUSE");
 
-    button_panel_add_label(button_panel, 6, 11, FontPrimary, "Hey Eva <3");
+    button_panel_add_label(button_panel, 6, 11, FontPrimary, "TV + DVD");
     button_panel_add_label(button_panel, 9, 64, FontSecondary, "Vol");
     button_panel_add_label(button_panel, 38, 64, FontSecondary, "Time");
 
