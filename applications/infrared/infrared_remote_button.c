@@ -5,7 +5,7 @@
 
 struct InfraredRemoteButton {
     string_t name;
-    //uint32_t page;
+    uint32_t page;//TODO: is this the propper data type?
     InfraredSignal* signal;
 };
 
@@ -32,13 +32,13 @@ const char* infrared_remote_button_get_name(InfraredRemoteButton* button) {
     return string_get_cstr(button->name);
 }
 
-// void infrared_remote_button_set_page(InfraredRemoteButton* button, uint32_t page) {
-//     button->page = page;
-// }
+void infrared_remote_button_set_page(InfraredRemoteButton* button, uint32_t page) {
+    button->page = page;
+}
 
-// uint32_t infrared_remote_button_get_page(InfraredRemoteButton* button) {
-//     return button->page;
-// }
+uint32_t infrared_remote_button_get_page(InfraredRemoteButton* button) {
+    return button->page;
+}
 
 void infrared_remote_button_set_signal(InfraredRemoteButton* button, InfraredSignal* signal) {
     infrared_signal_set_signal(button->signal, signal);

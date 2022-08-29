@@ -86,9 +86,10 @@ bool infrared_remote_find_button_by_name(InfraredRemote* remote, const char* nam
     return false;
 }
 
-bool infrared_remote_add_button(InfraredRemote* remote, const char* name, InfraredSignal* signal) {
+bool infrared_remote_add_button(InfraredRemote* remote, const char* name, uint32_t page, InfraredSignal* signal) {
     InfraredRemoteButton* button = infrared_remote_button_alloc();
     infrared_remote_button_set_name(button, name);
+    infrared_remote_button_set_page(button, page);
     infrared_remote_button_set_signal(button, signal);
     InfraredButtonArray_push_back(remote->buttons, button);
     return infrared_remote_store(remote);
@@ -98,6 +99,13 @@ bool infrared_remote_rename_button(InfraredRemote* remote, const char* new_name,
     furi_assert(index < InfraredButtonArray_size(remote->buttons));
     InfraredRemoteButton* button = *InfraredButtonArray_get(remote->buttons, index);
     infrared_remote_button_set_name(button, new_name);
+    return infrared_remote_store(remote);
+}
+
+bool infrared_remote_repage_button(InfraredRemote* remote, uint32_t new_page, size_t index) {
+    furi_assert(index < InfraredButtonArray_size(remote->buttons));
+    InfraredRemoteButton* button = *InfraredButtonArray_get(remote->buttons, index);
+    infrared_remote_button_set_page(button, new_page);
     return infrared_remote_store(remote);
 }
 
@@ -116,6 +124,7 @@ bool infrared_remote_store(InfraredRemote* remote) {
 
     FURI_LOG_I(TAG, "store file: \'%s\'", path);
 
+    //TODO: i dont like the fact, that the header is hardcoded
     bool success = flipper_format_file_open_always(ff, path) &&
                    flipper_format_write_header_cstr(ff, "IR signals file", 1);
     if(success) {
@@ -123,10 +132,12 @@ bool infrared_remote_store(InfraredRemote* remote) {
         for(InfraredButtonArray_it(it, remote->buttons); !InfraredButtonArray_end_p(it);
             InfraredButtonArray_next(it)) {
             InfraredRemoteButton* button = *InfraredButtonArray_cref(it);
+            uint32_t page = infrared_remote_button_get_page(button);//TODO: come up with a nicer solution here
             success = infrared_signal_save(
                 infrared_remote_button_get_signal(button),
                 ff,
-                infrared_remote_button_get_name(button));
+                infrared_remote_button_get_name(button),
+                &page);
             if(!success) {
                 break;
             }
@@ -166,7 +177,7 @@ bool infrared_remote_load(InfraredRemote* remote, string_t path) {
             can_read = infrared_signal_read(infrared_remote_button_get_signal(button), ff, buf, &page);
             if(can_read) {
                 infrared_remote_button_set_name(button, string_get_cstr(buf));
-                //infrared_remote_button_set_page(button, page);
+                infrared_remote_button_set_page(button, page);
                 InfraredButtonArray_push_back(remote->buttons, button);
             } else {
                 infrared_remote_button_free(button);

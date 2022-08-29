@@ -20,8 +20,9 @@ size_t infrared_remote_get_button_count(InfraredRemote* remote);
 InfraredRemoteButton* infrared_remote_get_button(InfraredRemote* remote, size_t index);
 bool infrared_remote_find_button_by_name(InfraredRemote* remote, const char* name, size_t* index);
 
-bool infrared_remote_add_button(InfraredRemote* remote, const char* name, InfraredSignal* signal);
+bool infrared_remote_add_button(InfraredRemote* remote, const char* name, uint32_t page, InfraredSignal* signal);
 bool infrared_remote_rename_button(InfraredRemote* remote, const char* new_name, size_t index);
+bool infrared_remote_repage_button(InfraredRemote* remote, uint32_t new_page, size_t index);
 bool infrared_remote_delete_button(InfraredRemote* remote, size_t index);
 
 bool infrared_remote_store(InfraredRemote* remote);

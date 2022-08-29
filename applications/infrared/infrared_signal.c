@@ -215,9 +215,10 @@ InfraredMessage* infrared_signal_get_message(InfraredSignal* signal) {
     return &signal->payload.message;
 }
 
-bool infrared_signal_save(InfraredSignal* signal, FlipperFormat* ff, const char* name) {
+bool infrared_signal_save(InfraredSignal* signal, FlipperFormat* ff, const char* name, uint32_t* page) {
     if(!flipper_format_write_comment_cstr(ff, "") ||
-       !flipper_format_write_string_cstr(ff, "name", name)) {
+       !flipper_format_write_string_cstr(ff, "name", name) ||
+       !flipper_format_write_uint32(ff, "page", page, 1)) {
         return false;
     } else if(signal->is_raw) {
         return infrared_signal_save_raw(&signal->payload.raw, ff);
@@ -234,6 +235,7 @@ bool infrared_signal_read(InfraredSignal* signal, FlipperFormat* ff, string_t na
     do {
         if(!flipper_format_read_string(ff, "name", buf)) break;
         string_set(name, buf);
+        //TODO: somehow get the INFRARED_MAX_PAGE_NUMBER_LENGTH parameter in here to replace the hardcoded 1
         flipper_format_read_uint32(ff, "page", page, 1); //TODO: no break as we do not want to enforce the presence of a page-entry
         if(!flipper_format_read_string(ff, "type", buf)) break;
         if(!string_cmp_str(buf, "raw")) {

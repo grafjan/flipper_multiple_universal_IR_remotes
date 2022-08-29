@@ -37,6 +37,7 @@
 #define INFRARED_TEXT_STORE_SIZE 128
 
 #define INFRARED_MAX_BUTTON_NAME_LENGTH 22
+#define INFRARED_MAX_PAGE_NUMBER_LENGTH 1
 #define INFRARED_MAX_REMOTE_NAME_LENGTH 22
 
 #define INFRARED_APP_FOLDER ANY_PATH("infrared")
@@ -58,6 +59,7 @@ typedef enum {
 typedef enum {
     InfraredEditModeNone,
     InfraredEditModeRename,
+    InfraredEditModeRepage,
     InfraredEditModeDelete,
 } InfraredEditMode;
 
@@ -86,7 +88,7 @@ struct Infrared {
     Submenu* submenu;
     TextInput* text_input;
     DialogEx* dialog_ex;
-    ButtonMenu* button_menu;
+    ButtonMenu* button_menu;//TODO: modify into array of button_menus
     Popup* popup;
 
     ViewStack* view_stack;
@@ -98,6 +100,7 @@ struct Infrared {
 
     string_t file_path;
     char text_store[INFRARED_TEXT_STORE_NUM][INFRARED_TEXT_STORE_SIZE + 1];
+    uint32_t uint32_t_store;
     InfraredAppState app_state;
 
     void* rpc_ctx;

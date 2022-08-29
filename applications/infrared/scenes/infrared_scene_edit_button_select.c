@@ -11,9 +11,20 @@ void infrared_scene_edit_button_select_on_enter(void* context) {
     InfraredRemote* remote = infrared->remote;
     InfraredAppState* app_state = &infrared->app_state;
 
-    const char* header = infrared->app_state.edit_mode == InfraredEditModeRename ?
-                             "Rename Button:" :
-                             "Delete Button:";
+    const char* header;
+    switch(infrared->app_state.edit_mode){
+        case InfraredEditModeRename:
+            header = "Rename Button:";
+            break;
+        case InfraredEditModeRepage:
+            header = "Repage Button:";
+            break;
+        case InfraredEditModeDelete:
+            header = "Delete Button:";
+            break;
+        default:
+            furi_assert(false);//TODO: do porper error handling here
+    }
     submenu_set_header(submenu, header);
 
     const size_t button_count = infrared_remote_get_button_count(remote);

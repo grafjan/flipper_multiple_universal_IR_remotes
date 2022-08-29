@@ -256,7 +256,7 @@ bool infrared_add_remote_with_button(
 
     string_clear(new_name);
     string_clear(new_path);
-    return infrared_remote_add_button(remote, button_name, signal);
+    return infrared_remote_add_button(remote, button_name, (uint32_t)0, signal);//TODO: default page=0?
 }
 
 bool infrared_rename_current_remote(Infrared* infrared, const char* name) {
